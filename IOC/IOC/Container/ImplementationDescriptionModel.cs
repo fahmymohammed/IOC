@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace IOC.Container
 {
-    public class DescriptionModel
+    public class ImplementationDescriptionModel
     {
-        public DescriptionModel(Type registerType, Type registerImplementationType, LifeCycleFlag lifeCycleFlag)
+        public ImplementationDescriptionModel(Type registerType, Type registerImplementationType, LifeCycleFlag lifeCycleFlag)
         {
             RegisterType = registerType;
             RegisterImplementationType = registerImplementationType;
@@ -16,17 +16,15 @@ namespace IOC.Container
         }
 
         //Registered the Service
-        public Type RegisterType { get; set; }
+        public Type RegisterType { get; }
 
         //Registered Service Implementation
-        public Type RegisterImplementationType { get; set; }
+        public Type RegisterImplementationType { get; }
 
         //Registered Service Implementation only set if its Singleton
-        public Object Implementation { get; set; }
-
-
+        public Object Implementation { get; internal set; }
 
         //Flag to Determine the LifeCycle
-        public LifeCycleFlag LifeCycleFlag { get; set; }
+        public LifeCycleFlag LifeCycleFlag { get;}
     }
 }

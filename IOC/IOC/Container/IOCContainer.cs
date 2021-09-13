@@ -8,15 +8,15 @@ namespace IOC.Container
 {
     class IOCContainer
     {
-        private readonly List<DescriptionModel> _descriptionModels;
+        private readonly List<ImplementationDescriptionModel> _descriptionModels;
         public IOCContainer()
         {
-            this._descriptionModels = new List<DescriptionModel>();
+            this._descriptionModels = new List<ImplementationDescriptionModel>();
         }
 
         public void Register<TService, TImplementation>(LifeCycleFlag lifeCycleFlag = LifeCycleFlag.Transient) where TImplementation : TService
         {
-            _descriptionModels.Add(new DescriptionModel(typeof(TService), typeof(TImplementation), lifeCycleFlag));
+            _descriptionModels.Add(new ImplementationDescriptionModel(typeof(TService), typeof(TImplementation), lifeCycleFlag));
         }
 
 
