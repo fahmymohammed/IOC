@@ -8,21 +8,49 @@ namespace IOC.Container
 {
     class IOCContainer
     {
-        private readonly List<DescriptionModel> descriptionModels;
-
-        internal void Register<T1, T2>(object transient)
+        private readonly List<DescriptionModel> _descriptionModels;
+        public IOCContainer()
         {
-            throw new NotImplementedException();
+            this._descriptionModels = new List<DescriptionModel>();
         }
 
-        public IOCContainer(List<DescriptionModel> descriptionModels)
+        public void Register<TService, TImplementation>(LifeCycleFlag lifeCycleFlag = LifeCycleFlag.Transient) where TImplementation : TService
         {
-            this.descriptionModels = descriptionModels;
+            _descriptionModels.Add(new DescriptionModel(typeof(TService), typeof(TImplementation), lifeCycleFlag));
         }
 
-        internal object Resolve<T>()
+
+        public T Resolve<T>()
         {
-            throw new NotImplementedException();
+            return (T)Resolve(typeof(T));
+        }
+
+        public object Resolve(Type type)
+        {
+            var descModel = _descriptionModels
+                .Where(x=>x.RegisterType == type)
+                .SingleOrDefault();
+
+            if (descModel == null)
+                throw new Exception($"Service {type.Name} NOT yet registered");
+
+            if (descModel.Implementation != null)
+                return descModel.Implementation;
+
+            var retrieved = descModel.RegisterImplementationType ?? descModel.RegisterType;
+
+            var retrievedConstructorInfo = retrieved.GetConstructors().First();
+            var retrievedConstructorParameters = retrievedConstructorInfo.GetParameters()
+                .Select(x => Resolve(x.ParameterType)).ToArray();
+            var implementation = Activator.CreateInstance(retrieved, retrievedConstructorParameters);
+
+            if (descModel.LifeCycleFlag == LifeCycleFlag.Singleton)
+                descModel.Implementation = implementation;
+
+            return implementation;
+
+
+            
         }
     }
 }
