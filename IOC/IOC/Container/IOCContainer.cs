@@ -39,6 +39,11 @@ namespace IOC.Container
 
             var retrieved = descModel.RegisterImplementationType ?? descModel.RegisterType;
 
+            if (retrieved.IsAbstract || retrieved.IsInterface)
+            {
+                throw new Exception("Can't Create Abstract or Interfaces");
+            }
+
             var retrievedConstructorInfo = retrieved.GetConstructors().First();
             var retrievedConstructorParameters = retrievedConstructorInfo.GetParameters()
                 .Select(x => Resolve(x.ParameterType)).ToArray();
