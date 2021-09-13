@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace IOC
 {
     
-    public class Calculator : ICalculator
+    public class CalculatorOne : ICalculatorOne
     {
         int numberOne = new Random().Next(0, 10);
         int numberTwo = new Random().Next(0, 10); 

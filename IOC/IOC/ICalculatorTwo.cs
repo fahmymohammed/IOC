@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IOC
 {
-    public interface ICalculator
+    public interface ICalculatorTwo
     {
         void Sum();
     }
