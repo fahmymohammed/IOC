@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 
 namespace IOC.Container
 {
-    class IOCContainer
+    public class IOCContainer
     {
         private readonly List<ImplementationDescriptionModel> _descriptionModels;
         public IOCContainer()
         {
             this._descriptionModels = new List<ImplementationDescriptionModel>();
         }
-
+        public int GetRegisteredCount()
+        {
+            return _descriptionModels.Count();
+        }
         public void Register<TService, TImplementation>(LifeCycleFlag lifeCycleFlag = LifeCycleFlag.Transient) where TImplementation : TService
         {
             _descriptionModels.Add(new ImplementationDescriptionModel(typeof(TService), typeof(TImplementation), lifeCycleFlag));
